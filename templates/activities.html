@@ -3,45 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask a Question</title>
+
+    <title>課外活動｜學習歷程檔案</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            margin: 0;
+            font-family: "Noto Sans TC", Arial, sans-serif;
+            background: linear-gradient(135deg, #e8f5e9, #ffffff);
             color: #333;
         }
+
         header {
             background-color: #4CAF50;
             color: white;
-            padding: 10px;
             text-align: center;
+            padding: 35px 20px;
         }
-        section {
-            margin: 20px;
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
         }
-        .form-box {
-            background-color: white;
+
+        header p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .activity-box h2 {
+            color: #388E3C;
+            margin-top: 0;
+        }
+
+        .activity-box p {
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .activity-image {
+            width: 100%;
+            max-width: 700px;
+            display: block;
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .highlight {
+            background-color: #f1f8e9;
+            padding: 20px;
+            border-left: 5px solid #4CAF50;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .highlight h3 {
+            color: #388E3C;
+            margin-top: 0;
+        }
+
+        .button-area {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 25px;
+            margin: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .home-button:hover {
+            background-color: #388E3C;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 14px;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>課外活動</h1>
-    </header>
-    <section>
-        <div class="form-box">
-            <form action="/activities" method="post">
-                <label for="question">你的問題:</label><br>
-                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
-                <label for="answer">答案:</label><br>
-                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
-                <input type="submit" value="送出">
-                <input type="button" value="回首頁" onclick="window.location.href='/'">
-            </form>
+
+<header>
+    <h1>🌟 課外活動</h1>
+    <p>新北高中 陳沛岑｜學習歷程檔案</p>
+</header>
+
+<div class="container">
+
+    <!-- 活動介紹 -->
+    <div class="activity-box">
+        <h2>📚 課外活動經驗</h2>
+
+        <p>
+            課外活動是高中生活中重要的一部分，除了課堂上的學習之外，
+            也能透過不同的活動累積經驗，培養溝通、合作、問題解決與時間管理能力。
+        </p>
+
+        <p>
+            在參與課外活動的過程中，我有機會與不同的同學合作，
+            學習如何分工、溝通以及完成共同的目標。
+            這些經驗讓我更加了解自己的興趣，也培養了主動參與與負責任的態度。
+        </p>
+
+        <img
+            src="/static/images/activities.jpg"
+            alt="課外活動照片"
+            class="activity-image"
+        >
+    </div>
+
+    <!-- 活動內容 -->
+    <div class="activity-box">
+        <h2>🌱 我的收穫</h2>
+
+        <p>
+            透過參與課外活動，我學習到課堂以外的實用能力。
+            例如在團體活動中，需要與其他成員討論與協調，
+            遇到問題時也必須一起想辦法解決。
+        </p>
+
+        <div class="highlight">
+            <h3>✨ 培養的能力</h3>
+
+            <p>
+                🤝 團隊合作：學習與不同的人合作完成任務。
+            </p>
+
+            <p>
+                💬 溝通能力：練習表達自己的想法並傾聽他人的意見。
+            </p>
+
+            <p>
+                🧠 問題解決：遇到突發狀況時，思考適當的解決方法。
+            </p>
+
+            <p>
+                ⏰ 時間管理：安排課業與活動的時間，培養規劃能力。
+            </p>
         </div>
-    </section>
+    </div>
+
+    <!-- 心得 -->
+    <div class="activity-box">
+        <h2>💡 活動心得</h2>
+
+        <p>
+            我認為參與課外活動不只是增加經歷，更重要的是從過程中認識自己。
+            每一次活動都有不同的挑戰，也讓我有機會嘗試新的事物。
+        </p>
+
+        <p>
+            透過這些經驗，我更加了解團隊合作的重要性，
+            也學會在遇到困難時保持耐心，並嘗試尋找解決方法。
+            未來我也希望能繼續參與不同的活動，累積更多學習與成長的經驗。
+        </p>
+    </div>
+
+    <!-- 回首頁 -->
+    <div class="button-area">
+        <button
+            class="home-button"
+            onclick="window.location.href='/'">
+            🏠 回首頁
+        </button>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 陳沛岑 學習歷程檔案
+</footer>
+
 </body>
 </html>
