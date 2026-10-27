@@ -56,30 +56,27 @@ def competition():
 
 
 # =========================
-# 多元選修課程－中韓翻譯
+# 中韓翻譯
+# 網址：http://127.0.0.1:5000/ask
 # =========================
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
 
     if request.method == 'POST':
 
-        # 1. 讀取學生輸入的問題
         question1 = request.form.get('question', '').strip()
 
-        # 2. 查詢中韓翻譯題庫
         answer1 = zh_ko_dict.get(
             question1,
             "抱歉，我目前沒有這個詞的韓文對應。"
         )
 
-        # 3. 回傳翻譯結果
         return render_template(
             'ask.html',
             question=question1,
             answer=answer1
         )
 
-    # GET 時顯示空白欄位
     return render_template(
         'ask.html',
         question="",
@@ -89,30 +86,26 @@ def ask():
 
 # =========================
 # 中日翻譯
-# 使用 dict 作為中日翻譯的題庫
+# 網址：http://127.0.0.1:5000/ask2
 # =========================
 @app.route('/ask2', methods=['GET', 'POST'])
 def ask2():
 
     if request.method == 'POST':
 
-        # 1. 讀取學生的問題
         question1 = request.form.get('question', '').strip()
 
-        # 2. 查詢題庫的對應答案
         answer1 = zh_jp_dict.get(
             question1,
             "抱歉，我目前沒有這個詞的日文對應。"
         )
 
-        # 3. 回傳答案給學生
         return render_template(
             'ask2.html',
             question=question1,
             answer=answer1
         )
 
-    # GET 時給空白欄位
     return render_template(
         'ask2.html',
         question="",
@@ -146,7 +139,7 @@ def activities():
 
 
 # =========================
-# 查詢股票
+# 股票查詢
 # =========================
 @app.route('/stock', methods=['GET', 'POST'])
 def stock():
@@ -155,7 +148,6 @@ def stock():
 
         stock_no = request.form.get('question', '').strip()
 
-        # 檢查是否有輸入股票代號
         if not stock_no:
             return render_template(
                 'stock.html',
@@ -163,7 +155,6 @@ def stock():
                 answer="請輸入股票代號，例如 2330。"
             )
 
-        # 臺灣證券交易所 API
         url = (
             "https://www.twse.com.tw/exchangeReport/"
             "STOCK_DAY"
@@ -177,10 +168,8 @@ def stock():
 
             if data.get("stat") == "OK" and data.get("data"):
 
-                # 取得最新一筆交易資料
                 latest_data = data["data"][-1]
 
-                # 第 7 個欄位為收盤價
                 answer = (
                     f"股票代號：{stock_no}\n"
                     f"交易日期：{latest_data[0]}\n"
@@ -188,7 +177,7 @@ def stock():
                 )
 
             else:
-                answer = "查無資料，請確認股票代號或稍後再試。"
+                answer = "查無資料，請確認股票代號。"
 
         except Exception:
             answer = "目前無法取得股票資料，請稍後再試。"
