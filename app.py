@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__)
 
+
 # =========================
 # 中韓翻譯題庫
 # =========================
@@ -18,6 +19,23 @@ zh_ko_dict = {
     "朋友": "친구",
     "家人": "가족",
     "愛": "사랑"
+}
+
+
+# =========================
+# 中日翻譯題庫
+# =========================
+zh_jp_dict = {
+    "你好": "こんにちは",
+    "謝謝": "ありがとう",
+    "對不起": "ごめんなさい",
+    "早安": "おはようございます",
+    "晚安": "おやすみなさい",
+    "老師": "先生（せんせい）",
+    "學生": "学生（がくせい）",
+    "朋友": "友達（ともだち）",
+    "家人": "家族（かぞく）",
+    "愛": "愛（あい）"
 }
 
 
@@ -38,29 +56,65 @@ def competition():
 
 
 # =========================
-# 多元選修課程－字典
+# 多元選修課程－中韓翻譯
 # =========================
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
 
     if request.method == 'POST':
 
+        # 1. 讀取學生輸入的問題
         question1 = request.form.get('question', '').strip()
 
-        # 查詢字典
+        # 2. 查詢中韓翻譯題庫
         answer1 = zh_ko_dict.get(
             question1,
             "抱歉，我目前沒有這個詞的韓文對應。"
         )
 
+        # 3. 回傳翻譯結果
         return render_template(
             'ask.html',
             question=question1,
             answer=answer1
         )
 
+    # GET 時顯示空白欄位
     return render_template(
         'ask.html',
+        question="",
+        answer=""
+    )
+
+
+# =========================
+# 中日翻譯
+# 使用 dict 作為中日翻譯的題庫
+# =========================
+@app.route('/ask2', methods=['GET', 'POST'])
+def ask2():
+
+    if request.method == 'POST':
+
+        # 1. 讀取學生的問題
+        question1 = request.form.get('question', '').strip()
+
+        # 2. 查詢題庫的對應答案
+        answer1 = zh_jp_dict.get(
+            question1,
+            "抱歉，我目前沒有這個詞的日文對應。"
+        )
+
+        # 3. 回傳答案給學生
+        return render_template(
+            'ask2.html',
+            question=question1,
+            answer=answer1
+        )
+
+    # GET 時給空白欄位
+    return render_template(
+        'ask2.html',
         question="",
         answer=""
     )
@@ -101,6 +155,7 @@ def stock():
 
         stock_no = request.form.get('question', '').strip()
 
+        # 檢查是否有輸入股票代號
         if not stock_no:
             return render_template(
                 'stock.html',
@@ -108,7 +163,7 @@ def stock():
                 answer="請輸入股票代號，例如 2330。"
             )
 
-        # TWSE API
+        # 臺灣證券交易所 API
         url = (
             "https://www.twse.com.tw/exchangeReport/"
             "STOCK_DAY"
@@ -116,24 +171,26 @@ def stock():
         )
 
         try:
-
             res = requests.get(url, timeout=10)
+            res.raise_for_status()
             data = res.json()
 
             if data.get("stat") == "OK" and data.get("data"):
 
-                # 取最新一筆資料
+                # 取得最新一筆交易資料
                 latest_data = data["data"][-1]
 
-                # 收盤價通常在第 7 個欄位
-                answer = latest_data[6]
+                # 第 7 個欄位為收盤價
+                answer = (
+                    f"股票代號：{stock_no}\n"
+                    f"交易日期：{latest_data[0]}\n"
+                    f"收盤價：{latest_data[6]} 元"
+                )
 
             else:
+                answer = "查無資料，請確認股票代號或稍後再試。"
 
-                answer = "查無資料，請確認股票代號。"
-
-        except Exception as e:
-
+        except Exception:
             answer = "目前無法取得股票資料，請稍後再試。"
 
         return render_template(
